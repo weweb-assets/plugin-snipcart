@@ -34,6 +34,11 @@ export default {
         INJECT SNIPCART
     \================================================================================================*/
     async injectSnipcartDependencies() {
+        const cart = document.createElement('div');
+        cart.setAttribute('id', 'snipcart');
+        cart.setAttribute('data-api-key', wwLib.wwPlugins.pluginSnipcart.settings.privateData.apiKey);
+        document.body.appendChild(cart);
+
         const links = [
             { href: 'https://app.snipcart.com', rel: 'preconnect' },
             { href: 'https://cnd.snipcart.com', rel: 'preconnect' },
@@ -45,11 +50,6 @@ export default {
             el.setAttribute('href', link.href);
             document.head.appendChild(el);
         });
-
-        const cart = document.createElement('div');
-        cart.setAttribute('id', 'snipcart');
-        cart.setAttribute('data-api-key', wwLib.wwPlugins.pluginSnipcart.settings.privateData.apiKey);
-        document.body.appendChild(cart);
 
         const snipcart = document.createElement('script');
         snipcart.setAttribute('async', '');
