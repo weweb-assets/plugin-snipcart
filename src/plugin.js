@@ -18,9 +18,6 @@ export default {
         Init
     \================================================================================================*/
     async init() {
-        const { settings } = wwLib.wwPlugins.pluginSnipcart;
-        const isSetup = !!settings.privateData.apiKey.length;
-        if (isSetup) await this.injectSnipcartDependencies(settings);
         /* wwEditor:start */
         const plugin = wwLib.wwPlugins.pluginSnipcart;
         plugin.settings = (await wwLib.wwPlugin.getSettings(plugin.id)) || this.settings;
@@ -29,12 +26,14 @@ export default {
             this.sidebarButton();
         }
         /* wwEditor:end */
+        const isSetup = !!plugin.settings.privateData.apiKey.length;
+        if (isSetup) await this.injectSnipcartDependencies();
     },
     /* wwEditor:start */
     /*=============================================m_ÔÔ_m=============================================\
         INJECT SNIPCART
     \================================================================================================*/
-    async injectSnipcartDependencies(settings) {
+    async injectSnipcartDependencies() {
         const links = [
             { href: 'https://app.snipcart.com', rel: 'preconnect' },
             { href: 'https://cnd.snipcart.com', rel: 'preconnect' },
@@ -49,7 +48,7 @@ export default {
 
         const cart = document.createElement('div');
         cart.setAttribute('id', 'snipcart');
-        cart.setAttribute('data-api-key', settings.privateData.apiKey);
+        cart.setAttribute('data-api-key', wwLib.pluginSnipcart.settings.privateData.apiKey);
         document.body.appendChild(cart);
 
         const snipcart = document.createElement('script');
