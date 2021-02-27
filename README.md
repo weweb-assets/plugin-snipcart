@@ -1,4 +1,4 @@
-# PLUGIN-REST-API
+# PLUGIN-SNIPCART
 
 This is a plugin for Weweb.
 
