@@ -48,7 +48,7 @@ export default {
 
         const cart = document.createElement('div');
         cart.setAttribute('id', 'snipcart');
-        cart.setAttribute('data-api-key', wwLib.pluginSnipcart.settings.privateData.apiKey);
+        cart.setAttribute('data-api-key', wwLib.wwPlugins.pluginSnipcart.settings.privateData.apiKey);
         document.body.appendChild(cart);
 
         const snipcart = document.createElement('script');
