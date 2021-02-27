@@ -37,6 +37,8 @@ export default {
         const cart = document.createElement('div');
         cart.setAttribute('id', 'snipcart');
         cart.setAttribute('data-api-key', wwLib.wwPlugins.pluginSnipcart.settings.privateData.apiKey);
+        cart.setAttribute('data-config-modal-style', 'side');
+        cart.setAttribute('hidden', '');
         document.body.appendChild(cart);
 
         const links = [
