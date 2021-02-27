@@ -1,6 +1,6 @@
 import plugin from './plugin.js';
 
-const name = 'plugin-rest-api';
+const name = 'plugin-snipcart';
 
 wwLib.wwPluginsLoader.add(name, plugin);
 

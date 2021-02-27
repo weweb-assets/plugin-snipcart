@@ -1,0 +1,118 @@
+<template>
+    <div class="ww-popup-snipcart-configuration">
+        <label class="snipcart-configuration__label caption-s" for="api-key">
+            API key
+            <a
+                class="snipcart-configuration__link"
+                href="https://app.snipcart.com/dashboard/account/credentials"
+                target="_blank"
+                >Find it here</a
+            >
+            <div class="snipcart-configuration__label-required">required</div>
+        </label>
+        <input
+            type="text"
+            name="api-key"
+            class="snipcart-configuration__input caption-m ww-editor-input -large"
+            placeholder="key**************"
+            v-model="settings.privateData.apiKey"
+            :style="{ '-webkit-text-security': isKeyHidden ? 'disc' : 'none' }"
+        />
+        <div class="snipcart-configuration__row">
+            <wwManagerRadio :value="!isKeyHidden" @input="isKeyHidden = !$event" />
+            <span class="snipcart-configuration__radio-label caption-m">Show api key</span>
+        </div>
+    </div>
+</template>
+
+<script>
+export default {
+    name: 'ConfigurationPopup',
+    props: {
+        options: {
+            type: Object,
+            default() {
+                return {};
+            },
+        },
+    },
+    data() {
+        return {
+            isKeyHidden: true,
+            settings: {
+                privateData: {},
+            },
+        };
+    },
+    watch: {
+        isSetup() {
+            this.options.setButtonState('SAVE', this.isSetup ? 'ok' : 'disabled');
+        },
+    },
+    computed: {
+        isSetup() {
+            return this.settings.privateData.apiKey && this.settings.privateData.apiKey.length;
+        },
+    },
+    methods: {
+        async beforeNext() {
+            this.options.setLoadingStatus(true);
+            try {
+                const plugin = wwLib.wwPlugins.pluginSnipcart;
+                plugin.settings = await wwLib.wwPlugin.saveSettings(
+                    plugin.id,
+                    plugin.settings.id,
+                    this.settings.data,
+                    this.settings.privateData
+                );
+
+                await plugin.injectSnipcartDependencies();
+            } catch (err) {
+                wwLib.wwLog.error(err);
+            }
+            this.options.setLoadingStatus(false);
+        },
+    },
+    created() {
+        this.settings = this.options.data.settings;
+        this.options.result.settings = this.settings;
+        this.options.setButtonState('SAVE', this.isSetup ? 'ok' : 'disabled');
+    },
+};
+</script>
+
+<style scoped lang="scss">
+.ww-popup-snipcart-configuration {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: var(--ww-spacing-03) 0;
+    .snipcart-configuration {
+        &__label {
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+            color: var(--ww-color-dark-500);
+            margin-bottom: var(--ww-spacing-01);
+            &-required {
+                margin-left: auto;
+                color: var(--ww-color-dark-400);
+            }
+        }
+        &__link {
+            color: var(--ww-color-blue-500);
+            margin-left: var(--ww-spacing-02);
+        }
+        &__input {
+            margin-bottom: var(--ww-spacing-03);
+        }
+        &__row {
+            display: flex;
+            align-items: center;
+        }
+        &__radio-label {
+            margin-left: var(--ww-spacing-02);
+        }
+    }
+}
+</style>
