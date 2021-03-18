@@ -6,10 +6,10 @@ export default {
     /*=============================================m_ÔÔ_m=============================================\
     Data
     \================================================================================================*/
+    /* wwEditor:start */
     settings: {
         data: {},
         privateData: {
-            /* wwEditor:start */
             apiKey: '',
         },
     },
@@ -75,8 +75,8 @@ export default {
                 headScripts: newHeadScripts,
                 bodyScripts: newBodyScripts,
             });
-        } catch (error) {
-            console.log(error);
+        } catch (err) {
+            wwLib.wwLog.error(err);
         }
     },
 
@@ -98,9 +98,8 @@ export default {
     \================================================================================================*/
     async sidebarButton() {
         try {
-            // 2ef532a2-89f9-40df-bebd-6981b3db9d2d"}id: "2ef532a2-89f9-40df-bebd-6981b3db9d2d"__proto__: Object
             const { id, settings } = wwLib.wwPlugins.pluginSnipcart;
-            const isSetup = !!settings.privateData.apiKey.length;
+            const isSetup = settings && settings.privateData && !!settings.privateData.apiKey.length;
             await wwLib.wwPopups.open({
                 firstPage: isSetup ? 'SNIPCART_POPUP' : 'SNIPCART_CONFIGURATION_POPUP',
                 data: {
