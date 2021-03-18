@@ -96,6 +96,7 @@ export default {
         try {
             const { id } = wwLib.wwPlugins.pluginSnipcart;
             const settings = await wwLib.wwPlugin.getSettings(id);
+
             const isSetup = settings && settings.privateData && typeof settings.privateData.apiKey === 'string';
             await wwLib.wwPopups.open({
                 firstPage: isSetup ? 'SNIPCART_POPUP' : 'SNIPCART_CONFIGURATION_POPUP',
