@@ -34,10 +34,6 @@ export default {
     /*=============================================m_ÔÔ_m=============================================\
         INJECT SNIPCART
     \================================================================================================*/
-
-    //  <script async="" src="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.js"></script>
-    // <div hidden="" id="snipcart" data-api-key="MWJiMjRjMmMtOGExNC00NDlkLTg1NTktMDkzMmVlZGQ4Y2VlNjM3NDkzMzEyMTkxNjI5Mjk3" data-config-modal-style="side"></div>
-
     async injectSnipcartDependencies() {
         let snipcartHeadScript = '';
         let snipcartBodyScript = '';
@@ -98,8 +94,9 @@ export default {
     \================================================================================================*/
     async sidebarButton() {
         try {
-            const { id, settings } = wwLib.wwPlugins.pluginSnipcart;
-            const isSetup = settings && settings.privateData && !!settings.privateData.apiKey.length;
+            const { id } = wwLib.wwPlugins.pluginSnipcart;
+            const settings = await wwLib.wwPlugin.getSettings(id);
+            const isSetup = settings && settings.privateData && typeof settings.privateData.apiKey === 'string';
             await wwLib.wwPopups.open({
                 firstPage: isSetup ? 'SNIPCART_POPUP' : 'SNIPCART_CONFIGURATION_POPUP',
                 data: {
