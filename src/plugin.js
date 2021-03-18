@@ -1,15 +1,15 @@
-/* wwEditor:start */
 import './popups';
-/* wwEditor:end */
 
+/* wwEditor:end */
 export default {
     /* wwEditor:start */
     /*=============================================m_ÔÔ_m=============================================\
-        Data
+    Data
     \================================================================================================*/
     settings: {
         data: {},
         privateData: {
+            /* wwEditor:start */
             apiKey: '',
         },
     },
@@ -21,6 +21,7 @@ export default {
         /* wwEditor:start */
         const plugin = wwLib.wwPlugins.pluginSnipcart;
         plugin.settings = (await wwLib.wwPlugin.getSettings(plugin.id)) || this.settings;
+
         if (!plugin.settings.privateData.apiKey) plugin.settings.privateData.apiKey = '';
         if (!plugin.settings.privateData.apiKey.length) {
             this.sidebarButton();
@@ -33,36 +34,71 @@ export default {
     /*=============================================m_ÔÔ_m=============================================\
         INJECT SNIPCART
     \================================================================================================*/
+
+    //  <script async="" src="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.js"></script>
+    // <div hidden="" id="snipcart" data-api-key="MWJiMjRjMmMtOGExNC00NDlkLTg1NTktMDkzMmVlZGQ4Y2VlNjM3NDkzMzEyMTkxNjI5Mjk3" data-config-modal-style="side"></div>
+
     async injectSnipcartDependencies() {
-        const cart = document.createElement('div');
-        cart.setAttribute('id', 'snipcart');
-        cart.setAttribute('data-api-key', wwLib.wwPlugins.pluginSnipcart.settings.privateData.apiKey);
-        cart.setAttribute('data-config-modal-style', 'side');
-        cart.setAttribute('hidden', '');
-        document.body.appendChild(cart);
+        let snipcartHeadScript = '';
+        let snipcartBodyScript = '';
+        if (
+            wwLib.wwPlugins.pluginSnipcart &&
+            wwLib.wwPlugins.pluginSnipcart.privateData &&
+            wwLib.wwPlugins.pluginSnipcart.privateData.apiKey
+        ) {
+            snipcartHeadScript =
+                '<link  ww-plugin-snipcart rel="preconnect" href="https://app.snipcart.com">' +
+                '<link ww-plugin-snipcart rel="preconnect" href="https://cdn.snipcart.com">' +
+                '<link ww-plugin-snipcart rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.css">';
+            snipcartBodyScript =
+                '<script ww-plugin-snipcart async="" src="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.js"></script>' +
+                `<div ww-plugin-snipcart hidden="" id="snipcart" data-api-key="${wwLib.wwPlugins.pluginSnipcart.privateData.apiKey}" data-config-modal-style="side"></div>`;
+        }
+        const designInfo = wwLib.$store.getters['websiteData/getDesignInfo'];
+        const headScripts = designInfo.headScripts;
+        const bodyScripts = designInfo.bodyScripts;
 
-        const links = [
-            { href: 'https://app.snipcart.com', rel: 'preconnect' },
-            { href: 'https://cnd.snipcart.com', rel: 'preconnect' },
-            { href: 'https://cdn.snipcart.com/themes/v3.0.30/default/snipcart.css', rel: 'stylesheet' },
-        ];
-        links.forEach(link => {
-            const el = document.createElement('link');
-            el.setAttribute('rel', link.rel);
-            el.setAttribute('href', link.href);
-            document.head.appendChild(el);
-        });
+        let newHeadScripts = this.manageScripts(headScripts, snipcartHeadScript);
+        let newBodyScripts = this.manageScripts(bodyScripts, snipcartBodyScript);
 
-        const snipcart = document.createElement('script');
-        snipcart.setAttribute('async', '');
-        snipcart.setAttribute('src', 'https://cdn.snipcart.com/themes/v3.0.30/default/snipcart.js');
-        document.body.appendChild(snipcart);
+        try {
+            await wwLib.$apollo.mutate({
+                mutation: wwLib.$apolloQueries.UPDATE_DESIGN,
+                variables: {
+                    designId: await wwLib.$store.getters['websiteData/getDesignInfo'].id,
+                    headScripts: newHeadScripts,
+                    bodyScripts: newBodyScripts,
+                },
+            });
+            wwLib.$store.dispatch('websiteData/updateDesignInfo', {
+                ...designInfo,
+                headScripts: newHeadScripts,
+                bodyScripts: newBodyScripts,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    },
+
+    manageScripts(scripts, snipcartScript) {
+        const div = document.createElement('div');
+        div.innerHTML = scripts;
+
+        const items = div.querySelectorAll('[ww-plugin-snipcart]');
+
+        for (let item of items) {
+            item.remove();
+        }
+
+        div.innerHTML += snipcartScript;
+        return div.innerHTML;
     },
     /*=============================================m_ÔÔ_m=============================================\
         SIDEBAR POPUP
     \================================================================================================*/
     async sidebarButton() {
         try {
+            // 2ef532a2-89f9-40df-bebd-6981b3db9d2d"}id: "2ef532a2-89f9-40df-bebd-6981b3db9d2d"__proto__: Object
             const { id, settings } = wwLib.wwPlugins.pluginSnipcart;
             const isSetup = !!settings.privateData.apiKey.length;
             await wwLib.wwPopups.open({

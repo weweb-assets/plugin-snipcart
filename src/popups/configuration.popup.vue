@@ -59,6 +59,7 @@ export default {
             this.options.setLoadingStatus(true);
             try {
                 const plugin = wwLib.wwPlugins.pluginSnipcart;
+
                 plugin.settings = await wwLib.wwPlugin.saveSettings(
                     plugin.id,
                     plugin.settings.id,
