@@ -4,18 +4,15 @@
         "type": "git",
         "url": "https://github.com/weweb-assets/plugin-snipcart"
     },
-    "version": "1.0.1",
+    "version": "2.0.0",
     "license": "MIT",
     "scripts": {
         "build": "weweb build",
         "serve": "weweb serve"
     },
-    "dependencies": {
-        "moment": "^2.29.1"
-    },
     "devDependencies": {
         "@vue/eslint-config-prettier": "^6.0.0",
-        "@weweb/cli": "latest",
+        "@weweb/cli": "git+https://github.com/weweb-team/weweb-cli-public.git#f61e3b53209b85500417b77137c2e9a783ee871c",
         "babel-eslint": "^10.1.0",
         "eslint": "^7.11.0",
         "eslint-plugin-prettier": "^3.1.4",

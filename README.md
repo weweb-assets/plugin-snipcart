@@ -12,4 +12,4 @@ To serve locally, run yarn serve --port=[PORT], and then go to Weweb editor, ope
 
 ## Build
 
-Before release, you can check build error by running yarn build --name=plugin-rest-api
+Before release, you can check build error by running yarn build --name=plugin-snipcart
