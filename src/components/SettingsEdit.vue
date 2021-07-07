@@ -14,9 +14,10 @@
                 type="text"
                 name="api-key"
                 placeholder="*****************"
-                :value="settings.privateData.apiKey"
+                :model-value="settings.privateData.apiKey"
                 :style="{ '-webkit-text-security': isKeyVisible ? 'none' : 'disc' }"
-                @input="changeApiKey"
+                large
+                @update:modelValue="changeApiKey"
             />
         </wwEditorFormRow>
         <div class="snipcart-settings-edit__row">
