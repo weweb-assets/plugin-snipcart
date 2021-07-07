@@ -1,9 +1,9 @@
 <template>
-    <div class="settings-edit">
+    <div class="snipcart-settings-edit">
         <wwEditorFormRow required label="API key">
-            <template slot="append-label">
+            <template #append-label>
                 <a
-                    class="settings-edit__link"
+                    class="snipcart-settings-edit__link"
                     href="https://app.snipcart.com/dashboard/account/credentials"
                     target="_blank"
                 >
@@ -13,16 +13,15 @@
             <wwEditorFormInput
                 type="text"
                 name="api-key"
-                placeholder="key**************"
+                placeholder="*****************"
                 :value="settings.privateData.apiKey"
+                :style="{ '-webkit-text-security': isKeyVisible ? 'none' : 'disc' }"
                 @input="changeApiKey"
-                :style="{ '-webkit-text-security': isKeyHidden ? 'disc' : 'none' }"
-                v-on:keyup.native.enter="$emit('save')"
             />
         </wwEditorFormRow>
-        <div class="settings-edit__row">
-            <wwManagerRadio :value="!isKeyHidden" @input="isKeyHidden = !$event" />
-            <span class="settings-edit__radio-label caption-m">Show api key</span>
+        <div class="snipcart-settings-edit__row">
+            <wwManagerRadio v-model="isKeyVisible" />
+            <span class="snipcart-settings-edit__radio-label caption-m">Show api key</span>
         </div>
     </div>
 </template>
@@ -33,37 +32,25 @@ export default {
         plugin: { type: Object, required: true },
         settings: { type: Object, required: true },
     },
+    emits: ['update:settings'],
     data() {
         return {
-            isKeyHidden: true,
+            isKeyVisible: false,
         };
     },
-    watch: {
-        isValid: {
-            immediate: true,
-            handler(value) {
-                this.$emit('update-is-valid', value);
-            },
-        },
-    },
-    computed: {
-        isValid() {
-            return !!this.settings.privateData.apiKey;
-        },
+    beforeUnmount() {
+        this.plugin.injectSnipcartDependencies();
     },
     methods: {
         changeApiKey(apiKey) {
-            this.$emit('update-settings', { ...this.settings, privateData: { apiKey } });
+            this.$emit('update:settings', { ...this.settings, privateData: { apiKey } });
         },
-    },
-    beforeDestroy() {
-        this.plugin.injectSnipcartDependencies();
     },
 };
 </script>
 
 <style lang="scss" scoped>
-.settings-edit {
+.snipcart-settings-edit {
     display: flex;
     flex-direction: column;
     &__link {

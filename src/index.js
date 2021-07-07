@@ -1,17 +1,9 @@
-import Vue from 'vue';
 /* wwEditor:start */
 import './components/SettingsEdit.vue';
 import './components/SettingsSummary.vue';
 /* wwEditor:end */
 
 export default {
-    /*=============================================m_ÔÔ_m=============================================\
-        Plugin API
-    \================================================================================================*/
-    onLoad() {
-        Vue.prototype.$pluginSnipcart = this;
-    },
-
     /*=============================================m_ÔÔ_m=============================================\
         Snipcart API
     \================================================================================================*/
@@ -52,14 +44,12 @@ export default {
             wwLib.wwLog.error(err);
         }
     },
-
     manageScripts(scripts, snipcartScript) {
-        const div = document.createElement('div');
+        const div = wwLib.getFrontDocument().createElement('div');
         div.innerHTML = scripts;
 
         const items = div.querySelectorAll('[ww-plugin-snipcart]');
-
-        for (let item of items) {
+        for (const item of items) {
             item.remove();
         }
 
