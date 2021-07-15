@@ -1,7 +1,11 @@
 <template>
     <div class="snipcart-settings-summary">
-        <wwEditorIcon large name="key" class="snipcart-settings-summary__icon"></wwEditorIcon>
-        <span class="snipcart-settings-summary__value caption-m">{{ apiKey }}</span>
+        <div class="snipcart-settings-summary__elem">
+            <div><wwEditorIcon large name="key" class="snipcart-settings-summary__icon" /></div>
+            <span class="snipcart-settings-summary__value caption-m">
+                {{ apiKey }}
+            </span>
+        </div>
     </div>
 </template>
 
@@ -21,8 +25,13 @@ export default {
 
 <style lang="scss" scoped>
 .snipcart-settings-summary {
-    display: flex;
-    align-items: baseline;
+    &__elem {
+        display: flex;
+        align-items: center;
+        &:not(:last-child) {
+            margin-bottom: var(--ww-spacing-02);
+        }
+    }
     &__icon {
         margin-right: var(--ww-spacing-02);
     }
