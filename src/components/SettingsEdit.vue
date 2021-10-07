@@ -10,7 +10,7 @@
                     Find it here
                 </a>
             </template>
-            <wwEditorFormInput
+            <wwEditorInputText
                 type="text"
                 name="api-key"
                 placeholder="*****************"
@@ -21,7 +21,7 @@
             />
         </wwEditorFormRow>
         <div class="snipcart-settings-edit__row">
-            <wwManagerRadio v-model="isKeyVisible" />
+            <wwEditorInputSwitch v-model="isKeyVisible" />
             <span class="snipcart-settings-edit__radio-label caption-m">Show api key</span>
         </div>
     </div>
