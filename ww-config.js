@@ -7,5 +7,6 @@ export default {
                 return !!settings.privateData.apiKey;
             },
         },
+        designSystemId: 'a928b0da-4151-4534-9245-48f4f0209351'
     },
 };
