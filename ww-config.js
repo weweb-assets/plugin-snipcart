@@ -7,6 +7,6 @@ export default {
                 return !!settings.privateData.apiKey;
             },
         },
-        designSystemId: 'a928b0da-4151-4534-9245-48f4f0209351'
+        designSystemId: '4fa7c80e-1503-4e47-bcd4-c279b991c8df'
     },
 };
