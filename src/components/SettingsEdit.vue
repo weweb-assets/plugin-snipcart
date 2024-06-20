@@ -55,7 +55,7 @@ export default {
     display: flex;
     flex-direction: column;
     &__link {
-        color: var(--ww-color-blue-500);
+        color: var(--ww-color-content);
         margin-left: var(--ww-spacing-02);
     }
     &__row {
