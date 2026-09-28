@@ -19,7 +19,7 @@ export default {
                 '<script ww-plugin-snipcart async="" src="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.js"></script>' +
                 `<div ww-plugin-snipcart hidden="" id="snipcart" data-api-key="${this.settings.privateData.apiKey}" data-config-modal-style="side"></div>`;
         }
-        const designInfo = wwLib.$store.getters['websiteData/getDesignInfo'];
+        const designInfo = (wwLib.wwWebsiteData.getInfo() || {});
         const headScripts = designInfo.headScripts;
         const bodyScripts = designInfo.bodyScripts;
 
@@ -30,12 +30,12 @@ export default {
             await wwLib.$apollo.mutate({
                 mutation: wwLib.$apolloQueries.UPDATE_DESIGN,
                 variables: {
-                    designId: await wwLib.$store.getters['websiteData/getDesignInfo'].id,
+                    designId: await (wwLib.wwWebsiteData.getInfo() || {}).id,
                     headScripts: newHeadScripts,
                     bodyScripts: newBodyScripts,
                 },
             });
-            wwLib.$store.dispatch('websiteData/updateDesignInfo', {
+            wwLib.wwWebsiteData.updateInfo({
                 ...designInfo,
                 headScripts: newHeadScripts,
                 bodyScripts: newBodyScripts,
