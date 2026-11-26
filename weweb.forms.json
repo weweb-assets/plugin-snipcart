@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "designSystemId": "4fa7c80e-1503-4e47-bcd4-c279b991c8df",
+  "settings": {
+    "fields": [
+      {
+        "key": "storefrontKey",
+        "type": "connection",
+        "label": "Public storefront API key",
+        "required": true,
+        "help": {
+          "text": "Copy the Public API key from Account → API Keys in the Snipcart dashboard. Websites include this value in the checkout HTML."
+        },
+        "operation": "snipcart.storefront"
+      }
+    ]
+  }
+}
