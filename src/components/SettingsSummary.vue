@@ -10,12 +10,14 @@
 </template>
 
 <script>
+import { hasManagedStorefront } from '../managedStorefront';
 export default {
     props: {
         settings: { type: Object, required: true },
     },
     computed: {
         apiKey() {
+            if (hasManagedStorefront()) return 'Public key configured in the project';
             const apiKey = this.settings.privateData.apiKey || '';
             return apiKey.replace(/./g, '*');
         },

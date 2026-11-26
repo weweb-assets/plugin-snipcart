@@ -1,5 +1,9 @@
 <template>
-    <div class="snipcart-settings-edit">
+    <div v-if="managed" class="snipcart-settings-edit">
+        <p>This checkout uses the public key in the project’s custom code. To replace it, edit the Snipcart data-api-key in the body.</p>
+        <button type="button" class="ww-editor-button -secondary -small" @click="openCustomCode">Open project custom code</button>
+    </div>
+    <div v-else class="snipcart-settings-edit">
         <wwEditorFormRow required label="API key">
             <template #append-label>
                 <a
@@ -28,6 +32,7 @@
 </template>
 
 <script>
+import { hasManagedStorefront } from '../managedStorefront';
 export default {
     props: {
         plugin: { type: Object, required: true },
@@ -37,13 +42,21 @@ export default {
     data() {
         return {
             isKeyVisible: false,
+            edited: false,
         };
     },
+    computed: {
+        managed: hasManagedStorefront,
+    },
     beforeUnmount() {
-        this.plugin.injectSnipcartDependencies();
+        if (this.edited && !hasManagedStorefront()) this.plugin.injectSnipcartDependencies();
     },
     methods: {
+        openCustomCode() {
+            wwLib.wwPopups.open({ firstPage: 'WEBSITE_EXTERNAL_SCRIPTS' });
+        },
         changeApiKey(apiKey) {
+            this.edited = true;
             this.$emit('update:settings', { ...this.settings, privateData: { apiKey } });
         },
     },
