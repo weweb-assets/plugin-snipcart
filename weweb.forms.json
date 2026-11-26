@@ -8,9 +8,6 @@
         "type": "connection",
         "label": "Public storefront API key",
         "required": true,
-        "help": {
-          "text": "Copy the Public API key from Account → API Keys in the Snipcart dashboard. Websites include this value in the checkout HTML."
-        },
         "operation": "snipcart.storefront"
       }
     ]
