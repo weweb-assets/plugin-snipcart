@@ -1,7 +1,12 @@
 <template>
     <div v-if="managed" class="snipcart-settings-edit">
-        <p>This checkout uses the public key in the project’s custom code. To replace it, edit the Snipcart data-api-key in the body.</p>
-        <button type="button" class="ww-editor-button -secondary -small" @click="openCustomCode">Open project custom code</button>
+        <p>
+            This checkout uses the public key in the project’s custom code. To replace it, edit the Snipcart
+            data-api-key in the body.
+        </p>
+        <button type="button" class="ww-editor-button -secondary -small" @click="openCustomCode">
+            Open project custom code
+        </button>
     </div>
     <div v-else class="snipcart-settings-edit">
         <wwEditorFormRow required label="API key">

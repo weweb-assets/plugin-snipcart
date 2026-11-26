@@ -9,6 +9,6 @@ export default {
                 return hasManagedStorefront() || !!settings.privateData.apiKey;
             },
         },
-        designSystemId: '4fa7c80e-1503-4e47-bcd4-c279b991c8df'
+        designSystemId: '4fa7c80e-1503-4e47-bcd4-c279b991c8df',
     },
 };
