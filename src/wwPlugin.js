@@ -45,7 +45,9 @@ export default {
         }
     },
     manageScripts(scripts, snipcartScript) {
-        const div = wwLib.getFrontDocument().createElement('div');
+        // An inert document only parses the project scripts: nothing in it loads or runs. The settings form also calls
+        // this from the editor window, which has no page document.
+        const div = document.implementation.createHTMLDocument('').createElement('div');
         div.innerHTML = scripts;
 
         const items = div.querySelectorAll('[ww-plugin-snipcart]');
